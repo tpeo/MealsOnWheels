@@ -6,6 +6,9 @@
     border-bottom: 10px solid;
     border-color: #003952;
     padding: 1rem 3rem;
-    z-index: 1000;
-    
+    z-index: 1000;   
+}
+
+.mow-logo {
+    width: 8rem;
 }
