@@ -1,9 +1,10 @@
 import React from 'react'
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Home.css"
 import MOWHorizontalBar from "../../components/MOWHorizontalBar/MOWHorizontalBar"
 
 const Home = () => {
+    const navigate = useNavigate()
   return (
     <>
         <MOWHorizontalBar />
@@ -12,7 +13,7 @@ const Home = () => {
                 <div className="home-box home-box-left home-box-prompt">
                     <div className='home-box-prompt-text'>New?</div>
                     <div>
-                        <button className='home-box-register-button'>Register</button>
+                        <button className='home-box-register-button' onClick={()=>navigate("/signup")}>Register</button>
                     </div>
                 </div>
                 <div className=" home-box home-box-right home-box-text-container">
@@ -26,7 +27,7 @@ const Home = () => {
                 <div className="home-box home-box-left home-box-prompt">
                     <div className='home-box-prompt-text'>Returning?</div>
                     <div>
-                        <button className='home-box-register-button'>Sign-In</button>
+                        <button className='home-box-register-button' onClick={()=>navigate("/signin")}>Sign-In</button>
                     </div>
                 </div>
                 <div className=" home-box home-box-right home-box-text-container">
