@@ -19,7 +19,6 @@ const SignUp = () => {
       setFormValues({...formValues, confirmPassword: e.target.value})
     }
     checkInput(e);
-    console.log(error);
   }
 
   const checkInput = e => {
