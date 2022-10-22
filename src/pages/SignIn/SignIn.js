@@ -18,7 +18,7 @@ const SignIn = () => {
           <div className="subheading-secondary username">Username</div>
           <input className='login-field' type="text" />
           <div className="subheading-secondary password">Password</div>
-          <input className='login-field' type="text" />
+          <input className='login-field' type="password" />
           <div className='login-extras'>
             <div className='remember-me'>
               <input className='login-checkbox' type="checkbox" />
