@@ -29,7 +29,7 @@ const SignIn = () => {
             </div>
           </div>
           <div>
-              <button className='signin-button' onClick={()=>navigate("/dashboard")}>Log In</button>
+            <button className='signin-button' onClick={() => navigate("/dashboard")}>Log In</button>
           </div>
         </div>
       </div>
