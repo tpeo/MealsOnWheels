@@ -20,7 +20,11 @@
     transform: translate(-50%, -50%);
     width: 70%;
 }
-
+.error {
+    color: red;
+    font-size: 1rem;
+    
+}
 .signup-box-container {
     width: 60vw;
     padding: 6rem;
