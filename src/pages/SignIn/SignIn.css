@@ -23,8 +23,16 @@
 
 .signin-box-container {
     width: 60vw;
-    padding: 6rem 10rem;
+    padding: 6rem;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.signin-box {
+    width: 70%;
 }
 
 .username {

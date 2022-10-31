@@ -28,10 +28,14 @@
 .signup-box-container {
     width: 60vw;
     padding: 6rem;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
+
 .signup-box {
-    margin-top: 20rem;
+    width: 70%;
 }
 
 .username {

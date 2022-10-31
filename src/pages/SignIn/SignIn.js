@@ -25,7 +25,7 @@ const SignIn = () => {
               <label htmlFor="">Remember me for 30 days?</label>
             </div>
             <div className='forgot-password-box'>
-              <a className='forgot-password' href="/forgot-password">Forgot password?</a>
+              &nbsp;&nbsp;<a className='forgot-password' href="/forgot-password">Forgot password?</a>
             </div>
           </div>
           <div>
