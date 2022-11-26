@@ -1,81 +1,103 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import mowLogo from "../../files/MoWLogo.svg"
 import { useNavigate } from 'react-router-dom'
 import "./SignUp.css"
+import ErrorNotice from "../../components/misc/ErrorNotice"
+import UserContext from "../../context/UserContext"
+import Axios from 'axios'
+
 const SignUp = () => {
-  const navigate = useNavigate();
-  const [formValues, setFormValues] = useState({
-    username: '', password: '',
-    confirmPassword: ''
-  });
-  const [error, setErrors] = useState({
-    username: '', password: '',
-    confirmPassword: ''
-  })
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [password2, setPassword2] = useState('')
+  const [error, setError] = useState(null)
 
+  const navigate = useNavigate()
+  const { setUserData } = useContext(UserContext)
 
-  const handleInputChange = e => {
-    if (e.target.name === "username") {
-      setFormValues({ ...formValues, username: e.target.value })
-    } else if (e.target.name === "password") {
-      setFormValues({ ...formValues, password: e.target.value })
-    } else if (e.target.name === "confirmPassword") {
-      setFormValues({ ...formValues, confirmPassword: e.target.value })
-    }
-    checkInput(e);
-  }
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      let token = localStorage.getItem("auth-token");
 
-  const checkInput = e => {
-    if (e.target.name === "username") {
-      if (!e.target.value) {
-        setErrors({ ...error, username: 'Please Enter Username' });
-      } else {
-        setErrors({ ...error, username: '' });
+      if (token === null) {
+        localStorage.setItem("auth-token", "");
+        token = "";
       }
-    } else if (e.target.name === "password") {
-      if (!e.target.value) {
-        setErrors({ ...error, password: 'Please Enter Password' });
-      } else if (e.target.value.length < 8) {
-        setErrors({ ...error, password: 'Password Must Be 8 Characters In Length' });
-      } else {
-        setErrors({ ...error, password: '' });
+
+      const tokenRes = await Axios.post(
+        "/users/isTokenValid",
+        null,
+        { headers: { "x-auth-token": token } }
+      );
+
+      if (tokenRes.data) {
+        const userRes = await Axios.get("/users/", {
+          headers: { "x-auth-token": token },
+        });
+
+        setUserData({
+          token: token,
+          user: userRes.data,
+        });
+        navigate("/dashboard")
       }
-    } else if (e.target.name === "confirmPassword") {
-      if (e.target.value !== formValues.password) {
-        setErrors({ ...error, confirmPassword: 'Passwords Do Not Match' });
-      } else {
-        setErrors({ ...error, confirmPassword: '' });
+    };
+
+    checkLoggedIn();
+  }, []);
+
+  const registerUser = async (e) => {
+    e.preventDefault()
+
+    try {
+      const newUser = {
+        email,
+        password,
+        password2,
       }
+
+      await Axios.post("/users/register", newUser)
+
+      const loginRes = await Axios.post("/users/login", {
+        email,
+        password
+      })
+
+      console.log(loginRes)
+
+      setUserData({
+        token: loginRes.data.token,
+        user: loginRes.data.user.id,
+      })
+
+      localStorage.setItem("auth-token", loginRes.data.token)
+
+      navigate("/dashboard")
+    } catch (err) {
+      err.response.data.msg && setError(err.response.data.msg)
     }
-
-  }
-
-  const onSubmitHandler = e => {
-    let invalid = error.username || error.password || error.confirmPassword
-    if (!invalid) {
-      navigate('/dashboard')
-    }
-
   }
 
   return (
     <div className='signup-container'>
       <div className="vertical-logo-bar">
-        <img src={mowLogo} alt="" className="signup-logo" />
+        <img onClick={()=>navigate("/")} src={mowLogo} alt="" className="signup-logo" />
       </div>
       <div className="signup-box-container">
         <div className="signup-box">
           <div className="heading-primary">Create Account</div>
           <div className="subheading-primary"> Enter the credentials below</div>
           <br />
-          <div className="subheading-secondary username">Username {error.username && <span className='error'><br /> {error.username}</span>}</div>
-          <input className='login-field' name="username" type="text" onChange={handleInputChange} />
-          <div className="subheading-secondary password">Password {error.password && <span className='error'><br /> {error.password}</span>}</div>
-          <input className='login-field' name="password" type="password" onChange={handleInputChange} />
-          <div className="subheading-secondary password">Confirm Password {error.confirmPassword && <span className='error'><br /> {error.confirmPassword}</span>}</div>
-          <input className='login-field' name="confirmPassword" type="password" onChange={handleInputChange} />
+          {error && <ErrorNotice message={error} />}
+          <br />
+          <div className="subheading-secondary email">Email</div>
+          <input className='login-field' name="email" type="text" onChange={(e) => setEmail(e.target.value)} />
+          <div className="subheading-secondary password">Password</div>
+          <input className='login-field' name="password" type="password" onChange={(e) => setPassword(e.target.value)} />
+          <div className="subheading-secondary password">Confirm Password</div>
+          <input className='login-field' name="confirmPassword" type="password" onChange={(e) => setPassword2(e.target.value)} />
           <div>
-            <button className='signup-button' onClick={onSubmitHandler}>Sign Up</button>
+            <button className='signup-button' onClick={registerUser}>Sign Up</button>
           </div>
         </div>
       </div>
