@@ -103,3 +103,17 @@
     cursor: pointer;
     opacity: .8;
 }
+
+.not-signed-up {
+    text-align: center;
+}
+
+.sign-up-link {
+    text-decoration: none;
+    font-weight: bold;
+    color: #000;
+}
+
+.sign-up-link:hover {
+    text-decoration: underline;
+}

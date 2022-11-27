@@ -99,6 +99,10 @@ const SignUp = () => {
           <div>
             <button className='signup-button' onClick={registerUser}>Sign Up</button>
           </div>
+          <br />
+          <div className='not-signed-up'>
+            Already have an account? <a className='sign-up-link' href="/signin">Sign In</a>
+          </div>
         </div>
       </div>
     </div>

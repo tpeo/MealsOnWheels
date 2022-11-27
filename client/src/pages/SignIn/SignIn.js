@@ -94,6 +94,10 @@ const SignIn = () => {
           <div>
             <button className='signin-button' onClick={LogInUser}>Log In</button>
           </div>
+          <br />
+          <div className='not-signed-up'>
+            Haven't signed up yet? <a className='sign-up-link' href="/signup">Sign up</a>
+          </div>
         </div>
       </div>
     </div>
