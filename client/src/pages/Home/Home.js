@@ -1,11 +1,46 @@
-import React from 'react'
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useContext} from 'react'
+import { useNavigate } from "react-router-dom"
+import UserContext from '../../context/UserContext'
 import "./Home.css"
 import MOWHorizontalBar from "../../components/MOWHorizontalBar/MOWHorizontalBar"
+import Axios from 'axios'
 
 const Home = () => {
+    const { setUserData } = useContext(UserContext);
     const navigate = useNavigate()
-  return (
+
+    useEffect(() => {
+        const checkLoggedIn = async () => {
+          let token = localStorage.getItem("auth-token");
+    
+          if (token === null) {
+            localStorage.setItem("auth-token", "");
+            token = "";
+          }
+    
+          const tokenRes = await Axios.post(
+            "/users/isTokenValid",
+            null,
+            { headers: { "x-auth-token": token } }
+          );
+    
+          if (tokenRes.data) {
+            const userRes = await Axios.get("/users/", {
+              headers: { "x-auth-token": token },
+            });
+    
+            setUserData({
+              token: token,
+              user: userRes.data,
+            });
+            navigate("/dashboard")
+          }
+        };
+    
+        checkLoggedIn();
+    }, []);
+
+    return (
     <>
         <MOWHorizontalBar />
         <div className="home-container">

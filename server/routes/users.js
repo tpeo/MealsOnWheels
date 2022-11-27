@@ -15,6 +15,11 @@ router.post("/register", async (req, res) => {
         return res.status(400).json({ msg: "Please fill in all fields." });
       }
   
+      const regex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if (!regex.test(email)) {
+        return res.status(400).json({ msg: "Please enter a valid email." });
+      }
+
       if (password.length < 6) {
         return res
           .status(400)
@@ -49,86 +54,91 @@ router.post("/register", async (req, res) => {
     }
   });
   
-  router.post("/login", async (req, res) => {
-    console.log("Called Login request");
-    try {
-      const { email, password } = req.body;
-  
-      //validation
-      if (!email || !password) {
-        return res.status(400).json({ msg: "Please fill in all fields." });
-      }
-  
-      //find user in database
-      const user = await User.findOne({ email: email });
-      if (!user) {
-        return res
-          .status(400)
-          .json({ msg: "No account with this email has been registered." });
-      }
-  
-      const isMatch = await bcrypt.compare(password, user.password);
-  
-      if (!isMatch) {
-        return res.status(400).json({ msg: "Incorrect password." });
-      }
-  
-      //JSON webtoken
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-      res.json({
-        token,
-        user: {
-          id: user._id,
-        },
-      });
-    } catch (err) {
-      res.status(500).json({ msg: err.message });
+router.post("/login", async (req, res) => {
+  console.log("Called Login request");
+  try {
+    const { email, password } = req.body;
+
+    //validation
+    if (!email || !password) {
+      return res.status(400).json({ msg: "Please fill in all fields." });
     }
-  });
-  
-  router.delete("/delete", auth, async (req, res) => {
-    try {
-      const deletedUser = await User.findByIdAndDelete(req.user);
-      res.json(deletedUser);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+
+    const regex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!regex.test(email)) {
+      return res.status(400).json({ msg: "Please enter a valid email." });
     }
-  });
-  
-  router.post("/isTokenValid", async (req, res) => {
-    try {
-      const token = req.header("x-auth-token");
-  
-      if (!token) {
-        return res.json(false);
-      }
-  
-      const verified = jwt.verify(token, process.env.JWT_SECRET);
-  
-      if (!verified) {
-        return res.json(false);
-      }
-  
-      const user = await User.findById(verified.id);
-  
-      if (!user) {
-        return res.json(false);
-      }
-  
-      return res.json(true);
-    } catch (err) {
-      res.json(false);
-    }
-  });
-  
-  router.get("/", auth, async (req, res) => {
-    const user = await User.findById(req.user);
-  
+
+    //find user in database
+    const user = await User.findOne({ email: email });
     if (!user) {
-      return res.status(500).json({ error: err.message });
+      return res
+        .status(400)
+        .json({ msg: "No account with this email has been registered." });
     }
-  
-    res.json(user);
-  });
-  
-  module.exports = router;
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ msg: "Incorrect password." });
+    }
+
+    //JSON webtoken
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    res.json({
+      token,
+      user: {
+        id: user._id,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+});
+
+router.delete("/delete", auth, async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.user);
+    res.json(deletedUser);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.post("/isTokenValid", async (req, res) => {
+  try {
+    const token = req.header("x-auth-token");
+
+    if (!token) {
+      return res.json(false);
+    }
+
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!verified) {
+      return res.json(false);
+    }
+
+    const user = await User.findById(verified.id);
+
+    if (!user) {
+      return res.json(false);
+    }
+
+    return res.json(true);
+  } catch (err) {
+    res.json(false);
+  }
+});
+
+router.get("/", auth, async (req, res) => {
+  const user = await User.findById(req.user);
+
+  if (!user) {
+    return res.status(500).json({ error: err.message });
+  }
+
+  res.json(user);
+});
+
+module.exports = router;
