@@ -40,8 +40,8 @@ const DailySignIn = () => {
                                 <option disabled={true} value="">
                                   Select Branch
                                 </option>
-                                <option value="centralTexas">Williamson County</option>
-                                <option value="centralTexas">Travis County</option>
+                                <option value="williamson">Williamson County</option>
+                                <option value="travis">Travis County</option>
                             </select>
                         </div>
                     </div>
