@@ -3,16 +3,17 @@ import { useNavigate } from 'react-router-dom'
 import "./DailySignIn.css"
 import MOWHorizontalBar from '../../components/MOWHorizontalBar/MOWHorizontalBar'
 const DailySignIn = () => {
-  const [formValues, setFormValues] = useState({username: '', password: '', confirmPassword: ''});
+  const [formValues, setFormValues] = useState({lastName: '', id: '', branch: ''});
   const handleInputChange = (e) => {
-    if (e.target.name === "username") {
-        setFormValues({ ...formValues, username: e.target.value })
-      } else if (e.target.name === "password") {
-        setFormValues({ ...formValues, password: e.target.value })
-      } else if (e.target.name === "confirmPassword") {
-        setFormValues({ ...formValues, confirmPassword: e.target.value })
+    if (e.target.name === "lastName") {
+        setFormValues({ ...formValues, lastName: e.target.value })
+      } else if (e.target.name === "id") {
+        setFormValues({ ...formValues, id: e.target.value })
+      } else if (e.target.name === "branch") {
+        setFormValues({ ...formValues, branch: e.target.value })
       }
-      checkInput(e);
+      // checkInput(e);
+      console.log(formValues);
 
   }
   const handleFormSubmit = (e) => {
@@ -31,12 +32,16 @@ const DailySignIn = () => {
                     <br />
                     <div className="input-fields">
                         <div className="last-name-input">
-                            <input className="login-field-whole" type="text" placeholder="Last Name" onChange={handleInputChange}></input>
+                            <input className="login-field-whole" type="text" placeholder="Last Name" onChange={handleInputChange} name="lastName"/>
                         </div>
                         <div className="id-input">
-                            <input className="login-field-half" type="text" placeholder="ID" onChange={handleInputChange} />
-                            <select className="select-field-half" placeholder="Select Branch">
-                                <option value="centralTexas">Central Texas</option>
+                            <input className="login-field-half" type="text" placeholder="ID" onChange={handleInputChange} name="id"/>
+                            <select className="select-field-half" value={formValues.branch} onChange={handleInputChange} name="branch">
+                                <option disabled={true} value="">
+                                  Select Branch
+                                </option>
+                                <option value="centralTexas">Williamson County</option>
+                                <option value="centralTexas">Travis County</option>
                             </select>
                         </div>
                     </div>
