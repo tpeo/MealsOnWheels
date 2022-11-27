@@ -10,6 +10,7 @@ import Home from "./pages/Home/Home"
 import SignIn from './pages/SignIn/SignIn'
 import SignUp from './pages/SignUp/SignUp'
 import Dashboard from './pages/Dashboard/Dashboard';
+import DailySignIn from './pages/DailySignIn/DailySignIn';
 
 const App = () => {
   const [userData, setUserData] = useState({
@@ -25,6 +26,7 @@ const App = () => {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/checkin" element= {<DailySignIn />} />
           </Routes>
         </div>
       </UserContext.Provider>

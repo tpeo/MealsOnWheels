@@ -46,31 +46,18 @@ const Home = () => {
         <div className="home-container">
             <div className="home-box-container" >
                 <div className="home-box home-box-left home-box-prompt">
-                    <div className='home-box-prompt-text'>New?</div>
-                    <div>
-                        <button className='home-box-register-button' onClick={()=>navigate("/signup")}>Register</button>
+                    <div className='home-box-prompt-text'>Welcome</div>
+                    <div className='home-box-prompt-sub-text'>Complete your Daily Sign In for meal pickup, or Register today to explore the benefits of Meals on Wheels! The application confirms your eligibility for our free service in Travis county.</div>
+                    <div className='button-container'>
+                        <button className='home-box-register-button' onClick={()=>navigate("/checkin")}>Sign In</button>
+                        <button className='home-box-hollow-button' onClick={()=>navigate("/signup")}>Register</button>
                     </div>
-                </div>
-                <div className=" home-box home-box-right home-box-text-container">
-                    <div className="home-box-text">
-                        Begin your application to experience the benefits of Meals on Wheels.
-                    </div>
-                </div>
-                
+                </div>                
             </div>
-            <div className="home-box-container" >
-                <div className="home-box home-box-left home-box-prompt">
-                    <div className='home-box-prompt-text'>Returning?</div>
-                    <div>
-                        <button className='home-box-register-button' onClick={()=>navigate("/signin")}>Sign-In</button>
-                    </div>
-                </div>
-                <div className=" home-box home-box-right home-box-text-container">
-                    <div className="home-box-text">
-                        Log in to your account and enter the Officer Dashboard.
-                    </div>
-                </div>
+            <div className="home-officer-sign-in">
+                <button className='officer-button' onClick={()=>navigate("/signin")}><span className='officer-button-text'>Open the Officer Dashboard →</span></button>
             </div>
+            
         </div>
     </>
   )
