@@ -50,7 +50,7 @@ const Home = () => {
                     <div className='home-box-prompt-sub-text'>Complete your Daily Sign In for meal pickup, or Register today to explore the benefits of Meals on Wheels! The application confirms your eligibility for our free service in Travis county.</div>
                     <div className='button-container'>
                         <button className='home-box-register-button' onClick={()=>navigate("/checkin")}>Sign In</button>
-                        <button className='home-box-hollow-button' onClick={()=>navigate("/register")}>Register</button>
+                        <button className='home-box-hollow-button' onClick={()=>navigate("/signup")}>Register</button>
                     </div>
                 </div>                
             </div>
