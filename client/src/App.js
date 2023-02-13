@@ -11,6 +11,7 @@ import SignIn from './pages/SignIn/SignIn'
 import SignUp from './pages/SignUp/SignUp'
 import Dashboard from './pages/Dashboard/Dashboard';
 import DailySignIn from './pages/DailySignIn/DailySignIn';
+import SeniorSignUp from './pages/SeniorSignUp/SeniorSignUp';
 
 const App = () => {
   const [userData, setUserData] = useState({
@@ -27,6 +28,7 @@ const App = () => {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/checkin" element= {<DailySignIn />} />
+            <Route path="/seniorsignup" element={<SeniorSignUp/>} />
           </Routes>
         </div>
       </UserContext.Provider>
